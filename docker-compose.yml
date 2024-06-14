@@ -5,10 +5,10 @@ services:
       - "7700:7700"
     expose:
       - "7700"
-    environment:
-      - MEILI_MASTER_KEY=masterKey
     volumes:
       - ./data/ms:/data/ms
+    env_file:
+      - ./.env
   
   db:
     image: postgres
@@ -16,12 +16,10 @@ services:
       - "5432:5432"
     expose:
       - "5432"
-    environment:
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=admin
-      - POSTGRES_DB=db
     volumes:
       - ./data/postgres:/data/postgres
+    env_file:
+      - ./.env
 
   docbot:
     build: .
@@ -29,8 +27,8 @@ services:
       - "8000:8000"
     expose:
       - "8000"
-    environment:
-      - MEILISEARCH_URL=http://meilisearch:7700
-
-  
-  
+    env_file:
+      - ./.env
+volumes:
+  postgres:
+  meilisearch:

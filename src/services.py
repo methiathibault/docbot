@@ -1,4 +1,4 @@
-from typing import Iterator
+from typing import Generator, Iterator
 
 import meilisearch.client
 from models import NotionArticle
@@ -8,7 +8,7 @@ from settings import settings
 from errors import ArticleNotFoundError, ArticleServiceError
 from meilisearch.errors import MeilisearchApiError
 
-def meilisearch_client_dependency():
+def meilisearch_client_dependency() -> Generator[meilisearch.Client, None, None]:
 	yield meilisearch.Client(settings.meilisearch_url, "masterKey")
 
 def article_service_dependency(meilisearch_client: meilisearch.Client = Depends(meilisearch_client_dependency)) -> Iterator["ArticleService"]:
